@@ -5,6 +5,11 @@ Unlock structured, real-time data from Sephora — including products, pricing, 
 
 Built by **Happy Endpoint** for developers, startups, data analysts, and e-commerce platforms.
 
+[![Platform](https://img.shields.io/badge/Platform-RapidAPI-blue)](https://rapidapi.com/)
+[![Status](https://img.shields.io/badge/Status-Production%20Ready-success)]()
+[![Uptime](https://img.shields.io/badge/Uptime-99.9%25-brightgreen)]()
+[![Response Time](https://img.shields.io/badge/Latency-<400ms-blueviolet)]()
+
 ---
 
 ## 🚀 Live on RapidAPI
