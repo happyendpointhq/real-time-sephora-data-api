@@ -1,296 +1,239 @@
-# 🧩 Real-Time Sephora API  
-### ⚡ Lightning-Fast • 📦 8,500+ Products • 🌎 Multi-Region • 🛍️ Production Ready
+# Sephora API
 
-Unlock structured, real-time data from Sephora — including products, pricing, reviews, store locations, and availability — all delivered in **sub-400ms response times**.
+Real-time access to Sephora product data: 8,500+ products with pricing, reviews
+and ratings, brand and category directories, store locations, and per-store
+availability. Clean JSON over a normal REST API, so there is no scraping, no
+proxy rotation, and no HTML parsing to maintain.
 
-Built by **Happy Endpoint** for developers, startups, data analysts, and e-commerce platforms.
+Coverage spans the US, Canada, and France.
 
-[![Platform](https://img.shields.io/badge/Platform-RapidAPI-blue)](https://rapidapi.com/)
-[![Status](https://img.shields.io/badge/Status-Production%20Ready-success)]()
-[![Uptime](https://img.shields.io/badge/Uptime-99.9%25-brightgreen)]()
-[![Response Time](https://img.shields.io/badge/Latency-<400ms-blueviolet)]()
+Built and maintained by [Happy Endpoint](https://happyendpoint.com).
 
----
-
-## 🚀 Live on RapidAPI
-
-👉 Subscribe here:  
-https://rapidapi.com/happyendpoint/api/real-time-sephora-api/
-
-🌐 Website: https://happyendpoint.com/  
-📩 Email: happyendpointhq@gmail.com  
+- Subscribe on RapidAPI: https://rapidapi.com/happyendpoint/api/real-time-sephora-api
+- Product page: https://happyendpoint.com/library/sephora-api
+- Hosted docs: https://happyendpointhq.github.io/sephora-api/
 
 ---
 
-# 📦 What You Get
+## What you get
 
-- ✅ 8,500+ products
-- ✅ Real-time pricing & availability
-- ✅ Reviews & ratings
-- ✅ Store location data
-- ✅ Category & brand directories
-- ✅ Clean JSON responses
-- ✅ No scraping required
-- ✅ Sub-400ms average response time
-- ✅ US, Canada, France coverage
+- Product search by keyword, category, or brand
+- Full product records with specifications and real-time pricing
+- Customer reviews and ratings
+- Brand and category directories
+- Store locations
+- Per-store product availability
+- Autocomplete for product name suggestions
 
 ---
 
-# 🧠 Perfect For
+## Getting started
 
-- 🛍️ E-commerce marketplaces  
-- 📊 Price comparison engines  
-- 💄 Beauty tech startups  
-- 📈 Market research teams  
-- 🤖 AI & recommendation engines  
-- 🧾 Inventory dashboards  
-- 💰 Affiliate marketers  
-- 🧪 Sentiment analysis projects  
+### 1. Get an API key
 
----
+Subscribe on RapidAPI. There is a free tier:
+https://rapidapi.com/happyendpoint/api/real-time-sephora-api
 
-# 🧩 API Overview
-
-**Base URL**
-```
-https://real-time-sephora-api.p.rapidapi.com
-```
-
-**Authentication Headers**
-```
-x-rapidapi-host: real-time-sephora-api.p.rapidapi.com
-x-rapidapi-key: YOUR_API_KEY
-```
-
----
-
-# 📌 All 11 Endpoints
-
-## 🔍 Helper & Navigation
-
-| Endpoint | Description |
-|----------|------------|
-| `/auto-complete` | Product name suggestions |
-| `/store-list` | Store locations by coordinates |
-| `/brands-list` | Full brand directory |
-| `/categories-list` | Root product categories |
-| `/category-data` | Subcategories & metadata |
-
----
-
-## 🛒 Product Search
-
-| Endpoint | Description |
-|----------|------------|
-| `/search-by-keyword` | Search products with advanced filters |
-| `/search-by-category` | Search by category ID |
-| `/search-by-brand` | Filter products by brand |
-
----
-
-## 📦 Product Information
-
-| Endpoint | Description |
-|----------|------------|
-| `/product-details` | Full product data |
-| `/product-reviews` | Customer reviews & ratings |
-| `/product-availability` | Stock at nearby stores |
-
----
-
-# 🔎 Example Request
-
-## Search by Keyword
+### 2. Make a request
 
 ```bash
-curl --request GET \
-  --url 'https://real-time-sephora-api.p.rapidapi.com/search-by-keyword?keyword=foundation&sortBy=BEST_SELLING&currentPage=1&pageSize=20&minRating=4' \
-  --header 'x-rapidapi-host: real-time-sephora-api.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_API_KEY'
+curl "https://real-time-sephora-api.p.rapidapi.com/search-by-keyword?query=moisturizer" \
+  -H "x-rapidapi-host: real-time-sephora-api.p.rapidapi.com" \
+  -H "x-rapidapi-key: YOUR_RAPIDAPI_KEY"
+```
+
+### Python
+
+```python
+import os
+
+import requests
+
+HOST = "real-time-sephora-api.p.rapidapi.com"
+HEADERS = {
+    "x-rapidapi-host": HOST,
+    "x-rapidapi-key": os.environ["RAPIDAPI_KEY"],
+}
+
+
+def get(path, **params):
+    r = requests.get(
+        f"https://{HOST}{path}",
+        params={k: v for k, v in params.items() if v is not None},
+        headers=HEADERS,
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+results = get("/search-by-keyword", query="moisturizer")
+brands = get("/brands-list")
+```
+
+### JavaScript
+
+```javascript
+const HOST = 'real-time-sephora-api.p.rapidapi.com';
+
+async function get(path, params = {}) {
+  const url = new URL(`https://${HOST}${path}`);
+  for (const [k, v] of Object.entries(params)) {
+    if (v != null) url.searchParams.set(k, v);
+  }
+
+  const res = await fetch(url, {
+    headers: {
+      'x-rapidapi-host': HOST,
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY,
+    },
+  });
+  if (!res.ok) throw new Error(`Sephora API ${res.status}`);
+  return res.json();
+}
+
+const results = await get('/search-by-keyword', { query: 'moisturizer' });
 ```
 
 ---
 
-# 🧾 Sample Response (Simplified)
+## Endpoints
+
+Base URL: `https://real-time-sephora-api.p.rapidapi.com`
+
+### Search and discovery
+
+| Endpoint | Returns |
+|---|---|
+| `GET /auto-complete` | Product name suggestions for a partial query |
+| `GET /search-by-keyword` | Products matching a search term |
+| `GET /search-by-category` | Products within a category |
+| `GET /search-by-brand` | Products from a brand |
+
+### Product data
+
+| Endpoint | Returns |
+|---|---|
+| `GET /product-details` | Full record for a single product |
+| `GET /product-reviews` | Customer reviews and ratings |
+| `GET /product-availability` | Stock availability, including per store |
+
+### Reference data
+
+| Endpoint | Returns |
+|---|---|
+| `GET /brands-list` | All brands |
+| `GET /categories-list` | Root product categories |
+| `GET /category-data` | Detail for a single category |
+| `GET /store-list` | Store locations |
+| `GET /status` | Service health |
+
+---
+
+## Using this API from Claude, Cursor, or another MCP client
+
+RapidAPI hosts an MCP server, so you can query this API from an AI assistant
+without writing any code:
 
 ```json
 {
-  "productId": "P123456",
-  "name": "Hydrating Foundation",
-  "brand": "Example Brand",
-  "price": 42,
-  "rating": 4.6,
-  "reviewCount": 1200,
-  "stockStatus": "In Stock",
-  "images": [
-    "https://image1.jpg",
-    "https://image2.jpg"
-  ]
+  "mcpServers": {
+    "Sephora": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.rapidapi.com",
+        "--header",
+        "x-api-host: real-time-sephora-api.p.rapidapi.com",
+        "--header",
+        "x-api-key: YOUR_RAPIDAPI_KEY"
+      ]
+    }
+  }
 }
 ```
 
----
-
-# 🗃️ Data Fields Included
-
-## 🛍️ Product Data
-- Product Name
-- Brand
-- SKU ID
-- Product ID
-- Category & Subcategory
-- Price
-- Discount / Sale Status
-- Rating (1–5)
-- Review Count
-- Ingredients
-- Description
-- Image URLs
-- Stock Status
-
-## 🏬 Store Data
-- Store Name
-- Address
-- Latitude / Longitude
-- Store Hours
-- Phone Number
-- Distance From User
-
-## 💬 Review Data
-- Reviewer Name
-- Rating
-- Review Text
-- Helpful Count
-- Date Posted
-- Verified Purchase Badge
+| Client | Config path |
+|---|---|
+| Claude Desktop (macOS) | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Claude Desktop (Windows) | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Cursor | `~/.cursor/mcp.json` |
+| Claude Code | `.mcp.json` in your project root |
 
 ---
 
-# ⚡ Performance
+## What people build with this
 
-- ⏱ Average response time: **<400ms**
-- 🔁 Real-time data updates
-- 🛡 No IP blocks
-- 📈 Production-grade infrastructure
-- 📊 Designed for scale
-
----
-
-# 📦 Bulk Dataset Available (8,500+ Products)
-
-Need large-scale structured data?
-
-We offer a **Sephora US bulk dataset** including:
-
-- SKU ID
-- Product ID
-- Product URL
-- Selling Price
-- Brand
-- Category
-- Structured attributes
-
-### Ideal For:
-- Market research
-- AI training
-- Competitive analysis
-- Product ingestion pipelines
-- Catalog building
-
-📩 Contact: happyendpointhq@gmail.com  
-🌐 https://happyendpoint.com/
-
-Custom scraping services also available.
+- Price tracking and competitor monitoring for beauty retail
+- Product comparison and review aggregation sites
+- Affiliate and shopping assistant tools
+- Assortment and catalogue analysis
+- Availability monitoring across stores
+- Sentiment analysis on review text
+- Recommendation engines and beauty tech products
 
 ---
 
-# 💡 Common Use Cases
+## FAQ
 
-| Use Case | Description |
-|----------|------------|
-| Price Comparison Engine | Track Sephora pricing |
-| Beauty Trend Analysis | Analyze ratings & reviews |
-| Affiliate Deal Tracker | Monitor discounts |
-| Inventory Dashboard | Real-time stock visibility |
-| Recommendation Engine | Personalized beauty suggestions |
-| Sentiment Analysis | Review insights extraction |
+### Does Sephora have an official public API?
 
----
+No. Sephora does not publish a public product API. This API is built and
+maintained by Happy Endpoint to provide that access.
 
-# 🏁 Getting Started
+### Is there a free tier?
 
-## 1️⃣ Subscribe
-Go to:
-https://rapidapi.com/happyendpoint/api/real-time-sephora-api/
+Yes. RapidAPI hosts a free plan with a monthly request quota, enough to prototype
+against.
 
-## 2️⃣ Get API Key
-Copy your key from RapidAPI dashboard.
+### How is this different from scraping?
 
-## 3️⃣ Make Request
-Replace `YOUR_API_KEY` in the example above.
+Scraping a retailer means maintaining selectors that break on every redesign,
+rotating proxies, handling bot challenges, and accepting that it may breach the
+site's terms. This is a REST API returning JSON with a stable contract.
 
-## 4️⃣ Build 🚀
-Integrate into your application backend or frontend.
+### Which countries are covered?
 
----
+The US, Canada, and France.
 
-# 📊 Available Formats
+### Can I check whether a product is in stock at a specific store?
 
-- JSON (Real-time API)
-- CSV (Bulk dataset)
+Yes. `/store-list` returns store locations and `/product-availability` reports
+availability, including per store.
 
----
+### Can I get the full catalogue as a file rather than calling the API?
 
-# 💰 Pricing
+Yes. Happy Endpoint sells a Sephora US products dataset of 8,000+ products as a
+one-off file. See [happyendpoint.com/datasets](https://happyendpoint.com/datasets)
+or email happyendpointhq@gmail.com.
 
-- Free Tier (limited monthly requests)
-- Pro Tier (higher rate limits)
-- Enterprise (custom solutions + bulk access)
+### Do you cover other retailers?
 
-See pricing on RapidAPI page.
+Yes. IKEA, Tesco, Kohl's, and H&M, among others. See
+[happyendpoint.com/library](https://happyendpoint.com/library).
 
 ---
 
-# 🔐 Legal & Compliance
+## Related repos
 
-- Data sourced from publicly available information
-- Compliant & structured access
-- No scraping required by end users
-- Reliable alternative to unstable scraping scripts
-
----
-
-# ❤️ Built By Happy Endpoint
-
-We build high-quality APIs for developers who need reliable, production-ready data pipelines.
-
-🌐 https://happyendpoint.com/  
-📩 happyendpointhq@gmail.com  
+- [ikea-api](https://github.com/happyendpointhq/ikea-api) - IKEA product, category, and store data
+- [priceline-api](https://github.com/happyendpointhq/priceline-api) - hotel, flight, and car rental data
+- [bayut-api-python-examples](https://github.com/happyendpointhq/bayut-api-python-examples) - runnable Python patterns that transfer to this API
+- [bayut-api-postman-collection](https://github.com/happyendpointhq/bayut-api-postman-collection) - our Postman collection format
 
 ---
 
-# ⭐ Support the Project
+## About Happy Endpoint
 
-If you find this API useful:
+[Happy Endpoint](https://happyendpoint.com) builds and maintains real-time data
+APIs for property portals, retailers, and marketplaces. All APIs are available on
+RapidAPI with a free tier.
 
-- ⭐ Star this repository
-- 🔗 Share it with your team
-- 🚀 Build something amazing
+- Catalogue: [happyendpoint.com/library](https://happyendpoint.com/library)
+- Datasets: [happyendpoint.com/datasets](https://happyendpoint.com/datasets)
+- Documentation: [docs.happyendpoint.com](https://docs.happyendpoint.com)
+- Contact: happyendpointhq@gmail.com
 
----
+## Licence
 
-# 📈 Why This API Wins
-
-- Faster than scraping
-- Cleaner than raw HTML parsing
-- Structured for developers
-- Built for scale
-- Affordable pricing
-- Reliable infrastructure
-
----
-
-## Ready to build?
-
-👉 Subscribe now:  
-https://rapidapi.com/happyendpoint/api/real-time-sephora-api/
+MIT. See [LICENSE](LICENSE).
